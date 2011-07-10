@@ -16,7 +16,11 @@ end
 
 while true do 
   Twitter.user_timeline("JarrettB", options).each do |status|
-    Twitter.update(jarrettify status[:text])
+    begin
+      Twitter.update(jarrettify status[:text])
+    rescue Exception => e
+      puts e.message      # don't bother attempting to retry, just don't explode
+    end
     options[:since_id] = status[:id]
   end
   sleep 30 
