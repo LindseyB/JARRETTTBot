@@ -18,8 +18,8 @@ while true do
   Twitter.user_timeline("JarrettB", options).each do |status|
     begin
       Twitter.update(jarrettify status[:text])
-    rescue => msg
-      puts msg      # don't bother attempting to retry, just don't explode
+    rescue Exception, Twitter::Forbidden, Twitter::BadGateway
+      # don't bother attempting to retry, just don't explode
     end
     options[:since_id] = status[:id]
   end
